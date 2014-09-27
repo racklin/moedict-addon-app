@@ -21,6 +21,14 @@
       </Description>
     </em:targetApplication>
 
+    <em:localized>
+      <Description>
+        <em:locale>zh</em:locale>
+        <em:name>萌典離線版</em:name>
+        <em:description>萌典離線版</em:description>
+      </Description>
+    </em:localized>
+
     </Description>
 </RDF>
 
