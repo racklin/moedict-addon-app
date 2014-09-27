@@ -1,0 +1,5 @@
+content moedict-app chrome/content/
+content moedict-app-webkit webapp/
+
+overlay chrome://xulapp/content/mainUIOverlay.xul chrome://moedict-app/content/overlay.xul
+
