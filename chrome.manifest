@@ -1,5 +1,11 @@
 content moedict-app chrome/content/
 content moedict-app-webkit webapp/
 
-overlay chrome://xulapp/content/mainUIOverlay.xul chrome://moedict-app/content/overlay.xul
+skin    moedict-app default         chrome/skin/default/
+
+locale  moedict-app en-US           chrome/locale/en-US/
+locale  moedict-app zh-TW           chrome/locale/zh-TW/
+locale  moedict-app zh              chrome/locale/zh-TW/
+
+overlay chrome://xulapp/content/moedictUIOverlay.xul chrome://moedict-app/content/overlay.xul
 

@@ -8,6 +8,9 @@
     const GREUtils = XULApp.GREUtils;
     const NODE_STATIC_STARTUP_TIMEOUT = 3000;
 
+    Components.utils.import("resource://gre/modules/Services.jsm");
+    Components.utils.import("resource://gre/modules/Preferences.jsm");
+
     function initHttpServer() {
 
         var server = new XULApp.HttpServer();
@@ -20,6 +23,9 @@
 
         // serve webapp directory
         server.registerDirectory("/", webappDir);
+
+        // proces voices mapping
+        mappingVoicesPath(server);
 
         // httpd.js gets worried when there is no stop callback
         server._stopCallback = function() {
@@ -40,6 +46,39 @@
         } catch(e) {
             dump("Not initializing HTTP server" + e);
         }
+
+    }
+
+    function mappingVoicesPath(server) {
+        var mapped = {};
+
+        // voices pack settings
+        var moedictAppBranch = Services.prefs.getBranch('extensions.moedictApp.');
+
+        moedictAppBranch.getChildList('voices').forEach(function(key) {
+            var voice = key.split('.')[1];
+            if (mapped[voice]) return;
+
+            var pKey = 'extensions.moedictApp.voices.'+voice+'.index';
+            var pKeyMapping = 'extensions.moedictApp.voices.'+voice+'.path';
+            var voiceIndex = Preferences.get(pKey, null);
+            var voicePath = Preferences.get(pKeyMapping, null);
+
+            if (voiceIndex && voicePath) {
+                dump(voiceIndex + ' to ' + voicePath + '\n');
+                mapped[voice] = voicePath;
+
+                var indexPath = GREUtils.File.chromeToPath(voiceIndex);
+
+                // convert path string to nsFile
+                var file = GREUtils.File.getFile(indexPath);
+                var webappDir = file.parent;
+
+                // serve webapp directory
+                server.registerDirectory(voicePath, webappDir);
+            }
+
+        });
 
     }
 

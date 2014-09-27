@@ -1,0 +1,5 @@
+
+.moedict-app-icon {
+    -moz-appearance: none;
+    list-style-image: url(moedict-app-icon.png);
+}

@@ -1,12 +1,24 @@
 <?xml version="1.0"?>
+<?xml-stylesheet href="chrome://moedict-app/skin/moedict-app.css" type="text/css"?>
+
+<!DOCTYPE overlay [
+        <!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd"> %globalDTD;
+        <!ENTITY % moeDTD SYSTEM "chrome://moedict-app/locale/moedict-app.dtd" > %moeDTD;
+        ]>
 
 <overlay id="moedictAppOverlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <vbox id="appcontent" flex="1">
-        <browser type="content" id="browser-moedict-app-webkit" src="chrome://moedict-app/content/loading.html" flex="1" width="100%" height="100%"/>
-    </vbox>
+    <radiogroup id="addons-selector">
+        <radio label="&moedict-app.Caption;" class="moedict-app-icon" position="1" id="moedict-app-icon" oncommand="moedictUI.switchToAddonContainer('moedict-app');" />
+    </radiogroup>
+
+    <deck id="addons-content-selector">
+            <vbox id="moedict-app-ui-container" class="main-ui-container" flex="1" position="1">
+                <browser type="content" id="browser-moedict-app-webkit" src="chrome://moedict-app/content/loading.html" flex="1" width="100%" height="100%"/>
+            </vbox>
+    </deck>
 
     <script type="application/javascript" src="http_server.js"/>
 
