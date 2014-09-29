@@ -4,14 +4,14 @@
 
 CALLDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-PACKAGENAME="xulapp-starterkit-webapp-wrapper"
-VERSION="1.1.1"
+PACKAGENAME="moedict-app"
+VERSION="1.0.1"
 
 BUILDID=`date +%Y%m%d`
 DISTDIR="$CALLDIR/dist"
 BUILDDIR="$CALLDIR/build"
 
-echo "Building Webapp Wrapper for XULApp StarterKit"
+echo "Building Moedict-app addon"
 
 # Remove build directory
 if [ ! -d "$BUILDDIR" ]; then mkdir -p "$BUILDDIR"; fi
@@ -22,6 +22,8 @@ cp -RH "$CALLDIR/chrome" "$BUILDDIR/"
 cp -RH "$CALLDIR/defaults" "$BUILDDIR/"
 cp "$CALLDIR/chrome.manifest" "$BUILDDIR/"
 cp "$CALLDIR/install.rdf" "$BUILDDIR/"
+cp "$CALLDIR/LICENSE" "$BUILDDIR/"
+cp "$CALLDIR/README.md" "$BUILDDIR/"
 
 # Make sure DISTDIR exists
 if [ ! -d "$DISTDIR" ]; then mkdir -p "$DISTDIR"; fi
