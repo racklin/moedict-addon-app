@@ -11,7 +11,7 @@
         <em:type>2</em:type>
         <em:unpack>true</em:unpack>
 
-        <em:updateURL>https://s3.amazonaws.com/xulapp/moedict-desktop/addons/moedict-addon-app@moedict.tw/update.rdf</em:updateURL>
+        <em:updateURL>https://xulapp.s3.amazonaws.com/moedict-desktop/addons/moedict-addon-app@moedict.tw/update.rdf</em:updateURL>
         <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDAFVHgj7PSf6kz9X+fFoqj28H8iN0osJ5ldcliBS6gd4t8TLKSZ8JrbDuboV8X42i5Jeeg4Pw4D4LK4+Hef2tQc/5oy4iQzN+yBu39eq4/vwgXs4AdF/gkg0fvqUE9AHK2kv7clvFDmYf8zZWd5H7xtuUd+G+YHhHgKVTUNxzuSQIDAQAB</em:updateKey>
 
     <!-- Gecko Toolkit
