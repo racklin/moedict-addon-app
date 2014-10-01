@@ -36,6 +36,11 @@
         bindAddress = GREUtils.Pref.getPref('extensions.moedictApp.httpServer.bindAddress') || "127.0.0.1";
         port = GREUtils.Pref.getPref('extensions.moedictApp.httpServer.port') || 54321;
 
+        // exposed getHttpServer to xul window object
+        window.getHttpServer = function() {
+            return server;
+        };
+
         try {
             if (enable) {
                 server.start(port, bindAddress);
@@ -100,5 +105,7 @@
         }
 
     });
+
+
 
 })();
