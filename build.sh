@@ -5,7 +5,7 @@
 CALLDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 PACKAGENAME="moedict-app"
-VERSION="1.0.1"
+VERSION="1.0.2"
 
 BUILDID=`date +%Y%m%d`
 DISTDIR="$CALLDIR/dist"
