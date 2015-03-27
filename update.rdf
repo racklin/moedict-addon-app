@@ -6,8 +6,8 @@
                    em:id="toolkit@mozilla.org"
                    em:minVersion="1.9a1"
                    em:maxVersion="32.*"
-                   em:updateLink="https://github.com/racklin/moedict-addon-app/releases/download/1.1.2/moedict-app-1.1.2.xpi"
-                   em:updateHash="sha1:afd35a6b3a5cc04157f6417615b0ab98a0e47192" />
+                   em:updateLink="https://github.com/racklin/moedict-addon-app/releases/download/1.1.1/moedict-app-1.1.1.xpi"
+                   em:updateHash="sha1:596059b84314098d637e4aac963dcd75ae37a22d" />
   <RDF:Description RDF:about="rdf:#$SakTF3"
                    em:version="1.0.1">
     <em:targetApplication RDF:resource="rdf:#$VakTF3"/>
@@ -38,7 +38,7 @@
                    em:updateLink="https://xulapp.s3.amazonaws.com/moedict-desktop/addons/moedict-addon-app@moedict.tw/moedict-app-1.0.2.xpi"
                    em:updateHash="sha1:c4a542caa7dfbdbdcde99fd42ba99b8011f0c482" />
   <RDF:Description RDF:about="rdf:#$SakTF5"
-                   em:version="1.1.2">
+                   em:version="1.1.1">
     <em:targetApplication RDF:resource="rdf:#$VakTF5"/>
   </RDF:Description>
 </RDF:RDF>
