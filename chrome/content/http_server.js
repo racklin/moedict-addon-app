@@ -10,6 +10,7 @@
 
     Components.utils.import("resource://gre/modules/Services.jsm");
     Components.utils.import("resource://gre/modules/Preferences.jsm");
+    Components.utils.import("resource://gre/modules/NetUtil.jsm");
 
     function initHttpServer() {
 
@@ -54,6 +55,50 @@
 
     }
 
+    function getVoicesPathHandler(regex, remoteUrl) {
+
+      var preCompiledRegex = regex.map(function(obj) {
+          var rObj = {};
+          rObj.regex = new RegExp(obj.regex);
+          rObj.baseurl = obj.baseurl;
+          return rObj;
+      });
+
+      var handler = function(metadata, response) {
+
+          var arPath = metadata.path.split("/")||[metadata.path];
+          var requestFile = arPath[arPath.length-1];
+
+          var voiceUrl = remoteUrl + requestFile; // default remoteurl
+          dump("requestFile = " + requestFile + '\n');
+          preCompiledRegex.forEach(function(mapping) {
+              if (requestFile.match(mapping.regex)) {
+                voiceUrl = mapping.baseurl + requestFile;
+              }
+          });
+          dump("voiceUrl = " + voiceUrl + '\n');
+
+          response.processAsync();
+          NetUtil.asyncFetch(voiceUrl, function(aInputStream, aResult) {
+              if (Components.isSuccessCode(aResult)) {
+                  response.setStatusLine(metadata.httpVersion, 200, "OK");
+                  response.setHeader("Content-Type", 'audio/ogg', false);
+                  response.setHeader("Content-Length", ''+aInputStream.available(), false);
+                  response.setHeader("Last-Modified", 'Wed, 22 May 2013 05:13:02 GMT', false);
+                  NetUtil.asyncCopy(aInputStream, response.bodyOutputStream, function(aResult) {
+                      response.finish();
+                  });
+              } else {
+                  // error 404
+                  response.setStatusLine(metadata.httpVersion, 404, "File Not Found.");
+                  response.finish();
+              }
+          });
+      };
+
+      return handler;
+    }
+
     function mappingVoicesPath(server) {
         var mapped = {};
 
@@ -64,23 +109,24 @@
             var voice = key.split('.')[1];
             if (mapped[voice]) return;
 
-            var pKey = 'extensions.moedictApp.voices.'+voice+'.index';
             var pKeyMapping = 'extensions.moedictApp.voices.'+voice+'.path';
-            var voiceIndex = Preferences.get(pKey, null);
+            var pRemoteUrl = 'extensions.moedictApp.voices.'+voice+'.remote';
             var voicePath = Preferences.get(pKeyMapping, null);
+            var remoteUrl = Preferences.get(pRemoteUrl, '');
 
-            if (voiceIndex && voicePath) {
-                dump(voiceIndex + ' to ' + voicePath + '\n');
+            if (voicePath) {
                 mapped[voice] = voicePath;
 
-                var indexPath = GREUtils.File.chromeToPath(voiceIndex);
-
-                // convert path string to nsFile
-                var file = GREUtils.File.getFile(indexPath);
-                var webappDir = file.parent;
+                var voiceMapping = [];
+                var voiceBranch = Services.prefs.getBranch('extensions.moedictApp.voices.'+voice+'.');
+                voiceBranch.getChildList('mapping').forEach(function(key2) {
+                    var mvk = 'extensions.moedictApp.voices.'+voice+'.'+key2;
+                    var mappingRule = Preferences.get('extensions.moedictApp.voices.'+voice+'.'+key2, false);
+                    if (mappingRule) voiceMapping.push(JSON.parse(mappingRule));
+                });
 
                 // serve webapp directory
-                server.registerDirectory(voicePath, webappDir);
+                server.registerPrefixHandler(voicePath, getVoicesPathHandler(voiceMapping, remoteUrl));
             }
 
         });
